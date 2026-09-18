@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Descobrindo como eu percebo o amor</title>
+<meta property="og:title" content="Descobrindo como eu percebo o amor">
+<meta property="og:description" content="Faça este teste especial criado pela Escola de Pais e descubra qual é a sua principal linguagem de amor!">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://raw.githubusercontent.com/Luflechas/Teste-linguagens-de-amor-maiores/main/logo%202.png">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f7f4f0;color:#302b2b}
+.app{max-width:760px;margin:auto;padding:20px 14px 40px}
+.card{background:#fff;border-radius:22px;padding:26px 22px;box-shadow:0 5px 24px rgba(0,0,0,.08)}
+h1{margin:0 0 8px;font-size:30px;line-height:1.15}
+.subtitle{margin:0 0 22px;color:#6c6464;line-height:1.5}
+.intro{background:#faf7f4;border-radius:16px;padding:16px;line-height:1.55;margin-bottom:20px}
+.progress-wrap{margin:12px 0 24px}
+.progress-label{display:flex;justify-content:space-between;font-size:14px;color:#6c6464;margin-bottom:7px}
+.progress{height:9px;background:#e9e3df;border-radius:99px;overflow:hidden}
+.progress-bar{height:100%;width:0;background:#7c5c67;transition:width .25s}
+.question-number{font-size:14px;color:#7c5c67;font-weight:bold;margin-bottom:8px}
+.question{font-size:22px;line-height:1.35;font-weight:bold;margin:0 0 18px}
+.options{display:grid;gap:10px}
+.option{width:100%;text-align:left;border:2px solid #e5dedb;background:white;border-radius:15px;padding:14px 15px;cursor:pointer;font-size:16px;line-height:1.4;transition:.15s}
+.option:hover{border-color:#a98794;background:#fcf9fa}
+.option.selected{border-color:#7c5c67;background:#f5eef1}
+.letter{display:inline-flex;align-items:center;justify-content:center;width:29px;height:29px;border-radius:50%;background:#eee8e6;margin-right:9px;font-weight:bold;vertical-align:middle}
+.selected .letter{background:#7c5c67;color:white}
+.actions{display:flex;justify-content:space-between;gap:10px;margin-top:20px}
+button.nav{border:0;border-radius:13px;padding:13px 20px;font-size:16px;font-weight:bold;cursor:pointer}
+#backBtn{background:#eee8e6;color:#443d3d}
+#nextBtn{background:#7c5c67;color:white;margin-left:auto}
+#nextBtn:disabled{opacity:.45;cursor:not-allowed}
+.result{display:none}
+.result h2{font-size:27px;margin-top:0}
+.top-box{background:#faf5f7;border-radius:18px;padding:18px;margin:18px 0}
+.top-title{font-size:14px;color:#71686a;margin-bottom:5px}
+.top-language{font-size:25px;font-weight:bold;color:#7c5c67}
+.score-row{margin:16px 0}
+.score-head{display:flex;justify-content:space-between;font-size:15px;margin-bottom:6px}
+.score-track{height:11px;background:#ebe6e3;border-radius:99px;overflow:hidden}
+.score-fill{height:100%;width:0;background:#7c5c67;transition:width .5s}
+.explanation{line-height:1.6;background:#faf7f4;padding:16px;border-radius:16px;margin-top:20px}
+.conversation{margin-top:18px;padding:17px;border-radius:16px;border:1px solid #e7dfdc;line-height:1.55}
+.conversation p{margin:8px 0}
+.important{margin-top:18px;font-size:14px;color:#665e5e;line-height:1.55}
+.restart{width:100%;border:0;border-radius:13px;padding:14px;margin-top:22px;background:#7c5c67;color:white;font-size:16px;font-weight:bold;cursor:pointer}
+.footer{text-align:center;color:#8a8181;font-size:12px;margin-top:18px}
+@media(max-width:520px){.app{padding:10px 9px 28px}.card{padding:21px 16px;border-radius:18px}h1{font-size:26px}.question{font-size:20px}.option{font-size:15px;padding:13px}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="card">
+<section id="quiz">
+<h1>Descobrindo como eu percebo o amor ❤️</h1>
+<p class="subtitle">Um teste especial • Menores de 10 anos</p>
+<div class="intro">
+Responda pensando no que deixa você mais feliz e com o coração quentinho! Não existem respostas certas ou erradas.
+</div>
+<div class="progress-wrap">
+<div class="progress-label"><span id="progressText">Questão 1 de 20</span><span id="percentText">5%</span></div>
+<div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+</div>
+<div id="questionNumber" class="question-number"></div>
+<div id="questionText" class="question"></div>
+<div id="options" class="options"></div>
+<div class="actions">
+<button id="backBtn" class="nav" onclick="previousQuestion()">← Voltar</button>
+<button id="nextBtn" class="nav" onclick="nextQuestion()" disabled>Próxima →</button>
+</div>
+</section>
+
+<section id="result" class="result">
+<h2>Olha o que apareceu nas suas respostas! ❤️</h2>
+<div class="top-box">
+<div class="top-title">A linguagem que mais apareceu</div>
+<div class="top-language" id="topLanguage"></div>
+<div id="secondLanguage" style="margin-top:6px;color:#6c6464"></div>
+</div>
+<div id="scores"></div>
+<div class="explanation" id="explanation"></div>
+<div class="conversation">
+<strong>💬 Agora conversem</strong>
+<p><b>Filho/Filha:</b> “Uma coisa que eu gostaria que soubessem sobre como eu percebo o amor é…”</p>
+<p><b>Pais:</b> “Uma coisa que descobrimos sobre você hoje foi…”</p>
+</div>
+<div class="important"><b>Importante:</b> este resultado é uma forma divertida de conhecer um pouco mais sobre as preferências e carinhos que fazem bem no dia a dia.</div>
+<button class="restart" onclick="restartQuiz()">Refazer o teste</button>
+</section>
+</div>
+<div class="footer">Escola de Pais</div>
+</div>
+
+<script>
+const languages={
+palavras:{name:"Palavras de afirmação",description:"Você tende a perceber carinho com força quando ouve elogios sinceros, incentivos, reconhecimento e palavras doces."},
+tempo:{name:"Tempo de qualidade",description:"Para você, presença importa muito. Brincar juntos, passear e receber atenção sem pressa comunicam muito amor."},
+presentes:{name:"Presentes",description:"Você percebe carinho através de lembranças, surpresas e pequenos mimos que demonstram que lembraram de você."},
+servico:{name:"Atos de serviço",description:"Você nota o amor nas atitudes práticas: quando alguém te ajuda a arrumar as coisas, prepara um lanche ou facilita algo para você."},
+toque:{name:"Toque físico",description:"Você percebe o carinho através de abraços bem apertados, cafuné, cócegas e proximidade física."}
+};
+
+const questions=[
+["O que mais te faz sentir feliz e querido(a) no dia a dia?",[
+["palavras","Alguém dizer 'você é muito especial para mim!'"],
+["presentes","Ganhar um brinquedo novo que eu queria tanto"],
+["toque","Receber um abraço de urso bem apertado"],
+["tempo","Quando param tudo para brincar de Lego comigo"],
+["servico","Quando me ajudam a arrumar os brinquedos espalhados"]
+]],
+["O que deixa o seu coração mais alegre?",[
+["toque","Receber cafuné na cabeça ou nas costas na hora de dormir"],
+["palavras","Adoro quando me dão parabéns e dizem que fiz um belo desenho"],
+["servico","Ver que alguém preparou o meu lanche preferido e o deixou pronto"],
+["presentes","Ganhar um docinho ou um chocolate surpresa no meio do dia"],
+["tempo","Quando vamos passear no parque só eu e quem eu amo"]
+]],
+["Quando você faz algo legal, o que você mais gosta de receber?",[
+["toque","Um abraço bem forte e carinhoso de parabéns"],
+["palavras","Ouvir 'estou muito orgulhoso(a) de você!'"],
+["presentes","Ganhar uma lembrancinha ou um presentinho surpresa"],
+["tempo","Alguém parar para brincar comigo para comemorar"],
+["servico","Alguém me ajudar a terminar o resto das minhas tarefas"]
+]],
+["O que demonstra de verdade que alguém gosta de ti?",[
+["presentes","Ganhar um cartão colorido ou um desenho feito para mim"],
+["tempo","Deitar pertinho de mim para ver um desenho ou ler uma história"],
+["servico","Alguém me ajudar a fazer uma tarefa da escola que está difícil"],
+["palavras","Ouvir alguém me chamar de 'meu amor'"],
+["toque","Andar de mãos dadas na rua com quem eu amo"]
+]],
+["Qual destes momentos é o seu preferido?",[
+["tempo","Brincar juntos sem pressa e sem ninguém mexer no telemóvel"],
+["presentes","Ganhar uma caixinha com um brinquedinho embrulhado"],
+["palavras","Ouvir elogios sobre a minha roupa ou o meu sorriso"],
+["toque","Receber cócegas gostosas e marentas para rir bastante"],
+["servico","Alguém cuidar de mim e fazer um curativo com carinho se caio"]
+]],
+["O que faz você se sentir seguro(a) e amado(a)?",[
+["servico","Alguém me ajudar a arrumar os brinquedos e a mochila"],
+["palavras","Ouvir a frase: 'Você é o meu melhor amigo(a)!'"],
+["presentes","Receber um agrado surpresa, como um balão ou adesivo"],
+["tempo","Ter alguém sentado no chão brincando de boneca comigo"],
+["toque","Ganhar abraços e mimos bem pertinho"]
+]],
+["O que te dá mais vontade de sorrir?",[
+["tempo","Ver que alguém guardou um desenho meu na geladeira"],
+["presentes","Ganhar aquela guloseima que eu adoro"],
+["palavras","Ouvir 'muito obrigado por me ajudares hoje!'"],
+["toque","Sentir um cafuné gostoso enquanto descanso"],
+["servico","Alguém me ajudar a montar um brinquedo difícil"]
+]],
+["O que é mais legal de ganhar quando alguém viaja?",[
+["presentes","Uma lembrancinha ou brinquedinho que trouxeram para mim"],
+["palavras","Ouvir palavras doces de saudade quando chegam"],
+["toque","Ganhar um abraço bem apertado de boas-vindas"],
+["tempo","Passar a tarde toda a ver fotos da viagem juntos"],
+["servico","Alguém me ajudar a descer as malas ou organizar o quarto"]
+]],
+["Quando você está triste, o que te consola mais rápido?",[
+["toque","Um abraço de urso bem quentinho"],
+["palavras","Alguém dizer que vai ficar tudo bem e que me ama"],
+["presentes","Ganhar um chocolatinho para animar"],
+["tempo","Alguém parar tudo para ficar juntinho de mim no sofá"],
+["servico","Alguém fazer um favor para mim para eu descansar"]
+]],
+["O que te faz sentir um super-herói ou uma princesa?",[
+["palavras","Ouvir elogios de que sou muito corajoso(a) e inteligente"],
+["presentes","Ganhar uma coroa de brinquedo ou um presente surpresa"],
+["servico","Ter ajuda para vestir uma fantasia ou arrumar o quarto"],
+["tempo","Brincar de faz de conta por horas com quem eu amo"],
+["toque","Dar as mãos e receber abraços fortes de comemoração"]
+]],
+["O que significa amor para você?",[
+["servico","Alguém fazer o meu lanche preferido com carinho"],
+["tempo","Brincar de esconde-esconde ou de bola junto"],
+["presentes","Ganhar um presente embrulhado com um laço bonito"],
+["palavras","Ouvir 'eu te amo muito' logo de manhã"],
+["toque","Sentir um abraço bem apertado e beijinho na testa"]
+]],
+["O que te deixa mais orgulhoso(a)?",[
+["palavras","Ouvir alguém dizer na frente de outros: 'Que trabalho lindo você fez!'"],
+["presentes","Ganhar uma medalha ou um presentinho de parabéns"],
+["servico","Ver que alguém limpou a bagunça que eu fiz sem reclamar"],
+["tempo","Passar o dia inteiro a brincar no parque com a família"],
+["toque","Ganhar abraços e carinho na bochecha"]
+]],
+["Qual é o melhor mimo que você pode receber?",[
+["toque","Um cafuné bem gostoso no cabelo"],
+["presentes","Um docinho inesperado no meio da tarde"],
+["palavras","Ouvir: 'Adoro o teu sorriso!'"],
+["tempo","Ter alguém para jogar um jogo de tabuleiro comigo"],
+["servico","Alguém me ajudar a carregar a minha mochila pesada"]
+]],
+["O que faz um dia comum se tornar o melhor dia do mundo?",[
+["tempo","Ter tempo exclusivo para brincar com a mamãe ou o papai"],
+["servico","Alguém me ajudar nas coisas que não consigo fazer sozinho(a)"],
+["presentes","Ganhar um brinquedo novo de surpresa"],
+["palavras","Ouvir elogios carinhosos o dia todo"],
+["toque","Receber abraços de urso a toda a hora"]
+]],
+["O que demonstra que alguém se importa com os teus sentimentos?",[
+["tempo","Parar para me ouvir com atenção quando estou a falar"],
+["servico","Fazer um curativo com muito carinho e sopro no machucado"],
+["toque","Dar um abraço bem forte para me acalmar"],
+["palavras","Dizer palavras doces para me fazer sorrir"],
+["presentes","Trazer um agrado para me ver contente"]
+]],
+["O que você mais gosta que façam por você antes de dormir?",[
+["tempo","Ouvir uma história contada com muito carinho"],
+["toque","Receber um beijo de boa noite e um abraço demorado"],
+["palavras","Ouvir 'você é a alegria da casa, durma bem'"],
+["presentes","Ganhar um presentinho pequenininho no travesseiro"],
+["servico","Deixarem o meu pijama quentinho separado na cama"]
+]],
+["O que te faz sentir parte especial da família?",[
+["palavras","Ouvir 'estamos muito felizes por você ser nosso filho(a)'"],
+["presentes","Ganhar presentes iguais aos dos crescidos"],
+["tempo","Ter um momento só meu para passear com quem eu amo"],
+["servico","Receber ajuda para fazer as brincadeiras mais difíceis"],
+["toque","Sentar no colo e receber carinho e cafuné"]
+]],
+["O que te deixa com um sorriso de orelha a orelha?",[
+["presentes","Ganhar um brinquedo ou jogo que eu pedia há muito tempo"],
+["palavras","Ouvir alguém dizer que se diverte muito comigo"],
+["tempo","Alguém se sentar no chão para montar blocos comigo"],
+["toque","Receber cócegas e abraços inesperados"],
+["servico","Ver que arrumaram os meus lápis de cor na caixinha"]
+]],
+["O que é um sinal claro de carinho para você?",[
+["servico","Alguém me ajudar a amarrar o sapato ou fechar o casaco"],
+["palavras","Ouvir um 'parabéns, você foi muito bem!'"],
+["presentes","Ganhar um adesivo bonito ou uma lembrancinha"],
+["toque","Dar as mãos bem forte ao caminhar na rua"],
+["tempo","Assistir a um desenho animado junto com abraço no sofá"]
+]],
+["O que faz você pensar: 'Nossa, como gostam de mim!'?",[
+["tempo","Quando passam a tarde inteira a inventar brincadeiras comigo"],
+["toque","Quando me dão um abraço bem esmagado e gostoso"],
+["palavras","Quando dizem palavras bonitas de incentivo"],
+["presentes","Quando me trazem um lanchinho surpresa em formato de coração"],
+["servico","Quando me ajudam a arrumar a bagunça para descansarmos juntos"]
+]]
+];
+
+let current=0;
+let answers=Array(questions.length).fill(null);
+let displayedOptions=[];
+
+function shuffle(array){
+ const a=[...array];
+ for(let i=a.length-1;i>0;i--){
+ const j=Math.floor(Math.random()*(i+1));
+ [a[i],a[j]]=[a[j],a[i]];
+ }
+ return a;
+}
+
+function renderQuestion(){
+ const [question,opts]=questions[current];
+ document.getElementById("questionNumber").textContent=`Questão ${current+1}`;
+ document.getElementById("questionText").textContent=question;
+ document.getElementById("progressText").textContent=`Questão ${current+1} de ${questions.length}`;
+ const pct=Math.round(((current+1)/questions.length)*100);
+ document.getElementById("percentText").textContent=`${pct}%`;
+ document.getElementById("progressBar").style.width=`${pct}%`;
+ 
+ displayedOptions=shuffle(opts);
+ 
+ const container=document.getElementById("options");
+ container.innerHTML="";
+ displayedOptions.forEach((option,index)=>{
+ const btn=document.createElement("button");
+ btn.className="option";
+ if(answers[current]===option[0]) btn.classList.add("selected");
+ 
+ const letter=document.createElement("span");
+ letter.className="letter";
+ letter.textContent=String.fromCharCode(65+index);
+ btn.appendChild(letter);
+ btn.appendChild(document.createTextNode(option[1]));
+ btn.onclick=()=>selectOption(option[0]);
+ container.appendChild(btn);
+ });
+ 
+ document.getElementById("backBtn").style.visibility=current===0?"hidden":"visible";
+ document.getElementById("nextBtn").textContent=current===questions.length-1?"Ver resultado →":"Próxima →";
+ document.getElementById("nextBtn").disabled=answers[current]===null;
+}
+
+function selectOption(language){
+ answers[current]=language;
+ document.querySelectorAll(".option").forEach(btn=>btn.classList.remove("selected"));
+ const buttons=document.querySelectorAll(".option");
+ displayedOptions.forEach((option,index)=>{
+ if(option[0]===language) buttons[index].classList.add("selected");
+ });
+ document.getElementById("nextBtn").disabled=false;
+}
+
+function nextQuestion(){
+ if(answers[current]===null)return;
+ if(current<questions.length-1){
+ current++;
+ renderQuestion();
+ window.scrollTo({top:0,behavior:"smooth"});
+ }else showResult();
+}
+
+function previousQuestion(){
+ if(current>0){
+ current--;
+ renderQuestion();
+ window.scrollTo({top:0,behavior:"smooth"});
+ }
+}
+
+function showResult(){
+ const scores={palavras:0,tempo:0,presentes:0,servico:0,toque:0};
+ answers.forEach(a=>{if(a)scores[a]++;});
+ const ordered=Object.entries(scores).sort((a,b)=>b[1]-a[1]);
+ const top=ordered[0],second=ordered[1];
+ 
+ document.getElementById("quiz").style.display="none";
+ document.getElementById("result").style.display="block";
+ document.getElementById("topLanguage").textContent=languages[top[0]].name;
+ document.getElementById("secondLanguage").textContent=`Também apareceu bastante: ${languages[second[0]].name} (${second[1]} respostas).`;
+ 
+ const scoresEl=document.getElementById("scores");
+ scoresEl.innerHTML="";
+ ordered.forEach(([key,score])=>{
+ const row=document.createElement("div");
+ row.className="score-row";
+ row.innerHTML=`<div class="score-head"><span>${languages[key].name}</span><b>${score}/20</b></div>
+ <div class="score-track"><div class="score-fill" style="width:${(score/20)*100}%"></div></div>`;
+ scoresEl.appendChild(row);
+ });
+ 
+ document.getElementById("explanation").innerHTML=`<b>${languages[top[0]].name}</b><br>${languages[top[0]].description}`;
+}
+
+function restartQuiz(){
+ current=0;
+ answers=Array(questions.length).fill(null);
+ document.getElementById("result").style.display="none";
+ document.getElementById("quiz").style.display="block";
+ renderQuestion();
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+
+renderQuestion();
+</script>
+</body>
+</html>
